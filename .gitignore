@@ -16,6 +16,7 @@ buildNumber.properties
 *.ipr
 out/
 output/
+.DS_Store
 
 ### Eclipse ###
 .classpath
