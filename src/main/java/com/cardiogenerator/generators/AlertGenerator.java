@@ -6,6 +6,10 @@ import java.util.Random;
 
 import com.cardiogenerator.outputs.OutputStrategy;
 
+/**
+ * Implements the PatientDataGenerator interface and generates an alert for each patient.
+ * When an alert is triggered, it is marked as "triggered" and has a 90% chance of being resolved.
+ */
 public class AlertGenerator implements PatientDataGenerator {
 
   // Java style: fixed constant name (must be written in UPPER_SNAKE_CASE style)
@@ -13,10 +17,22 @@ public class AlertGenerator implements PatientDataGenerator {
   // Java style: fixed field name capitalisation (field names must start with lower-case)
   private boolean[] alertStates; // false = resolved, true = pressed
 
+  /**
+   * Initializes the alert states for the specified number of patients.
+   *
+   * @param patientCount The amount of patients for generating alerts.
+   */
   public AlertGenerator(int patientCount) {
     alertStates = new boolean[patientCount + 1];
   }
 
+  /**
+   * Generates an alert for a given patient based on the status probability (90% resolving),
+   * outputs the alert status using the given output style.
+   *
+   * @param patientId Patient ID used for generating data.
+   * @param outputStrategy Output strategy for the type of output.
+   */
   @Override
   public void generate(int patientId, OutputStrategy outputStrategy) {
     try {
