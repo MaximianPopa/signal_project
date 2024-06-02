@@ -12,6 +12,10 @@ public class Alert {
         this.timestamp = timestamp;
     }
 
+    public Alert(int patientId, String condition) {
+        this(String.valueOf(patientId), condition, System.currentTimeMillis());
+    }
+
     public String getPatientId() {
         return patientId;
     }

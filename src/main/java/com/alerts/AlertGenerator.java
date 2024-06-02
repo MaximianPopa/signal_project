@@ -35,8 +35,12 @@ public class AlertGenerator {
      * @param patient the patient data to evaluate for alert conditions
      */
     public void evaluateData(Patient patient) {
-        // Implementation goes here
-
+        for (AlertCondition alertCondition : AlertConditionRegistry.getAlertConditions()) {
+            if(alertCondition.isAlertConditionMet(patient)){
+                Alert alert = new Alert(patient.getPatientId(), alertCondition.getAlertDescription());
+                triggerAlert(alert);
+            }
+        }
     }
 
     /**
