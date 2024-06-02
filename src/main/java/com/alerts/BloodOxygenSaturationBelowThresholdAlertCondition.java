@@ -3,22 +3,22 @@ package com.alerts;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-public class SystolicPressureAboveThresholdAlertCondition implements AlertCondition{
+public class BloodOxygenSaturationBelowThresholdAlertCondition implements AlertCondition{
 
   @Override
   public String getAlertDescription() {
-    return "Systolic blood pressure above 180 mmHg";
+    return "Blood oxygen saturation level falls below 92%";
   }
 
   @Override
   public boolean isAlertConditionMet(Patient patient) {
-    PatientRecord lastRecord = patient.getLastRecord("SystolicPressure");
+    PatientRecord lastRecord = patient.getLastRecord("Saturation");
     if(lastRecord == null)
     {
       // We have no data from monitors of this type in the last 30 sec
       return false;
     }
 
-    return lastRecord.getMeasurementValue() > 180;
+    return lastRecord.getMeasurementValue() < 92;
   }
 }

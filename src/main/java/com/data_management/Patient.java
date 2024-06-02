@@ -3,6 +3,8 @@ package com.data_management;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.currentTimeMillis;
+
 /**
  * Represents a patient and manages their medical records.
  * This class stores patient-specific data, allowing for the addition and
@@ -10,6 +12,7 @@ import java.util.List;
  * of medical records based on specified criteria.
  */
 public class Patient {
+    private final static int DATA_GENERATION_PERIOD_MILlIS = 30_000;
     private int patientId;
     private List<PatientRecord> patientRecords;
 
@@ -67,4 +70,17 @@ public class Patient {
         }
         return result;
     }
+
+    public PatientRecord getLastRecord(String recordType){
+        List<PatientRecord> patientRecords = getRecords(currentTimeMillis() -
+          DATA_GENERATION_PERIOD_MILlIS, currentTimeMillis());
+        for (int i = patientRecords.size() - 1; i >= 0; i--){
+            PatientRecord patientRecord = patientRecords.get(i);
+            if(patientRecord.getRecordType().equals(recordType)){
+                return patientRecord;
+            }
+        }
+        return null;
+    }
+
 }

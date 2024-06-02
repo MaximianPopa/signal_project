@@ -1,6 +1,7 @@
 package com.alerts;
 
 import com.data_management.Patient;
+import com.data_management.PatientRecord;
 
 public class SystolicPressureBelowThresholdAlertCondition implements AlertCondition{
 
@@ -11,7 +12,13 @@ public class SystolicPressureBelowThresholdAlertCondition implements AlertCondit
 
   @Override
   public boolean isAlertConditionMet(Patient patient) {
-    //TODO: implement method
-    return false;
+    PatientRecord lastRecord = patient.getLastRecord("SystolicPressure");
+    if(lastRecord == null)
+    {
+      // We have no data from monitors of this type in the last 30 sec
+      return false;
+    }
+
+    return lastRecord.getMeasurementValue() < 90;
   }
 }

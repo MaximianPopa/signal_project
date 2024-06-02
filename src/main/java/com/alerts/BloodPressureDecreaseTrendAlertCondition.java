@@ -11,7 +11,7 @@ public class BloodPressureDecreaseTrendAlertCondition implements AlertCondition{
 
   @Override
   public boolean isAlertConditionMet(Patient patient) {
-    //TODO: implement method
+    // TODO: implement method
     return false;
   }
 }
