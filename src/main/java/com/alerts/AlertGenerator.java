@@ -37,7 +37,8 @@ public class AlertGenerator {
     public void evaluateData(Patient patient) {
         for (AlertCondition alertCondition : AlertConditionRegistry.getAlertConditions()) {
             if(alertCondition.isAlertConditionMet(patient)){
-                Alert alert = new Alert(patient.getPatientId(), alertCondition.getAlertDescription());
+                Alert alert = new Alert(patient.getPatientId(),
+                  alertCondition.getAlertDescription());
                 triggerAlert(alert);
             }
         }
@@ -53,6 +54,6 @@ public class AlertGenerator {
      */
     private void triggerAlert(Alert alert) {
         // Implementation might involve logging the alert or notifying staff
-
+        System.out.println("Sending alert to staff members: " + alert);
     }
 }
