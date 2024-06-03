@@ -1,8 +1,11 @@
 package com.alerts;
 
 import com.data_management.Patient;
+import com.data_management.PatientRecord;
 
 public class TriggeredAlertAlertCondition implements AlertCondition{
+
+  private static final double ALERT_UNTRIGGERED = 0;
 
   @Override
   public String getAlertDescription() {
@@ -11,7 +14,19 @@ public class TriggeredAlertAlertCondition implements AlertCondition{
 
   @Override
   public boolean isAlertConditionMet(Patient patient) {
-    //TODO: implement method
-    return false;
+    PatientRecord lastAlertRecord = patient.getLastRecord("Alert");
+
+    if(lastAlertRecord == null)
+    {
+      return false;
+    }
+    else
+    {
+      double value = lastAlertRecord.getMeasurementValue();
+      return value != ALERT_UNTRIGGERED;
+    }
+
   }
+
+
 }

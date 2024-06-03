@@ -9,6 +9,7 @@ import java.util.List;
 
 public class FileDataReader implements DataReader{
 
+  public static final String ALERT_TXT = "Alert.txt";
   private final String dataDirectory;
 
   public FileDataReader(String dataDirectory) {
@@ -33,7 +34,7 @@ public class FileDataReader implements DataReader{
 
     List<String> filenames = new ArrayList<>();
     for (File file : files) {
-      if (file.isFile() && !file.getName().equalsIgnoreCase("Alert.txt")) {
+      if (file.isFile()) {
         filenames.add(file.getName());
       }
     }
@@ -48,7 +49,7 @@ public class FileDataReader implements DataReader{
       int patientId = getPatientId(line);
       long timestamp = getTimestamp(line);
       String label = getLabel(line);
-      Double data = getData(line);
+      Double data = getData(line, fileName);
       dataStorage.addPatientData(patientId, data, label, timestamp);
     }
   }
@@ -76,10 +77,22 @@ public class FileDataReader implements DataReader{
     String labelPrefix = "Label";
     return getField(fileLine, labelPrefix);
   }
-  private static Double getData(String fileLine){
+  private static Double getData(String fileLine, String fileName){
     String labelPrefix = "Data";
     String fieldValue = getField(fileLine, labelPrefix).replace("%", "");
-    return Double.parseDouble(fieldValue);
+    if(fileName.equalsIgnoreCase(ALERT_TXT))
+    {
+      if(fieldValue.equalsIgnoreCase("resolved"))
+      {
+        return 0.;
+      }
+      else {
+        return 1.;
+      }
+    }
+    else {
+      return Double.parseDouble(fieldValue);
+    }
   }
 
 //  public static void main(String[] args) throws IOException {
