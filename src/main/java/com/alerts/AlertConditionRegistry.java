@@ -15,7 +15,7 @@ public class AlertConditionRegistry {
       new DiastolicPressureBelowThresholdAlertCondition(),
       new DiastolicPressureAboveThresholdAlertCondition(),
       new BloodOxygenSaturationBelowThresholdAlertCondition(),
-      new BloodOxygenSaturationLevelRapidDropThresholdAlertCondition(),
+      new BloodOxygenSaturationRapidDropThresholdAlertCondition(),
       new HypotensiveHypoxemiaAlertCondition(),
       new ECGAbnormalDataAlertCondition(),
       new TriggeredAlertAlertCondition()

@@ -99,4 +99,18 @@ public class Patient {
         return result.reversed();
     }
 
+    public List<PatientRecord> getRecords(long startTime, long endTime, String recordType) {
+
+        List<PatientRecord> result = new ArrayList<>();
+
+        for (PatientRecord patientRecord : patientRecords) {
+            if(patientRecord.getTimestamp() >= startTime && patientRecord.getTimestamp() <= endTime
+              && patientRecord.getRecordType().equals(recordType))
+            {
+                result.add(patientRecord);
+            }
+        }
+        return result;
+    }
+
 }
