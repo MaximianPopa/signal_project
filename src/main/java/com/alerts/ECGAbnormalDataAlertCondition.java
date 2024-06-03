@@ -1,8 +1,15 @@
 package com.alerts;
 
 import com.data_management.Patient;
+import com.data_management.PatientRecord;
+
+import java.util.List;
+
+import static java.lang.System.currentTimeMillis;
 
 public class ECGAbnormalDataAlertCondition implements AlertCondition{
+
+  private static final long MOVING_WINDOW_DURATION_MILLIS = 180_000;
 
   @Override
   public String getAlertDescription() {
@@ -11,7 +18,27 @@ public class ECGAbnormalDataAlertCondition implements AlertCondition{
 
   @Override
   public boolean isAlertConditionMet(Patient patient) {
-    //TODO: implement method
-    return false;
+    List<PatientRecord> lastRecords = patient.getRecords(currentTimeMillis() - MOVING_WINDOW_DURATION_MILLIS,
+      currentTimeMillis(), "ECG");
+
+    if(lastRecords.size() < 2)
+    {
+      return false;
+    }
+
+    // We dont want to include the last value in avg calc
+    double averageOfSlidingWindow = getAverageValue(lastRecords.subList(0, lastRecords.size() - 1));
+    double lastValue = lastRecords.getLast().getMeasurementValue();
+
+    return lastValue > 2*averageOfSlidingWindow;
   }
+
+  private double getAverageValue(List<PatientRecord> records){
+    double sum = 0;
+    for (PatientRecord record : records) {
+      sum += record.getMeasurementValue();
+    }
+    return sum/records.size();
+  }
+
 }
