@@ -1,5 +1,7 @@
 package com.data_management;
 
+import java.util.Objects;
+
 /**
  * Represents a single record of patient data at a specific point in time.
  * This class stores all necessary details for a single observation or
@@ -66,5 +68,30 @@ public class PatientRecord {
      */
     public String getRecordType() {
         return recordType;
+    }
+
+    @Override
+    public String toString() {
+        return "PatientRecord{" +
+          "patientId=" + patientId +
+          ", recordType='" + recordType + '\'' +
+          ", measurementValue=" + measurementValue +
+          ", timestamp=" + timestamp +
+          '}';
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        PatientRecord that = (PatientRecord) object;
+        return patientId == that.patientId &&
+          Double.compare(measurementValue, that.measurementValue) == 0 &&
+          timestamp == that.timestamp && Objects.equals(recordType, that.recordType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(patientId, recordType, measurementValue, timestamp);
     }
 }
