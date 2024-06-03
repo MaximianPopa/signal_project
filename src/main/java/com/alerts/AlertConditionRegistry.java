@@ -6,8 +6,10 @@ public class AlertConditionRegistry {
 
   private static final List<AlertCondition> ALERT_CONDITIONS =
     List.of(
-      new BloodPressureDecreaseTrendAlertCondition(),
-      new BloodPressureIncreaseTrendAlertCondition(),
+      new SystolicBloodPressureDecreaseTrendAlertCondition(),
+      new SystolicBloodPressureIncreaseTrendAlertCondition(),
+      new DiastolicBloodPressureDecreaseTrendAlertCondition(),
+      new DiastolicBloodPressureIncreaseTrendAlertCondition(),
       new SystolicPressureBelowThresholdAlertCondition(),
       new SystolicPressureAboveThresholdAlertCondition(),
       new DiastolicPressureBelowThresholdAlertCondition(),

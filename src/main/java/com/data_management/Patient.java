@@ -83,4 +83,20 @@ public class Patient {
         return null;
     }
 
+    public List<PatientRecord> getLastNRecords(String recordType, int n){
+        List<PatientRecord> patientRecords = getRecords(currentTimeMillis() -
+          n*DATA_GENERATION_PERIOD_MILlIS, currentTimeMillis());
+        List<PatientRecord> result = new ArrayList<>();
+        for (int i = patientRecords.size() - 1; i >= 0; i--){
+            PatientRecord patientRecord = patientRecords.get(i);
+            if(patientRecord.getRecordType().equals(recordType)){
+                result.add(patientRecord);
+                if(result.size() == n){
+                    break;
+                }
+            }
+        }
+        return result.reversed();
+    }
+
 }
