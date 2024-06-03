@@ -6,16 +6,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SystolicPressureAboveThresholdAlertConditionTest {
-
+public class DiastolicPressureAboveThresholdAlertConditionTest {
+  //TODO: change the conditions, correct the tests
   @Test
-  void testIsAlertConditionTrue() {
+  void testIsAlertConditionFalse() {
     boolean actualAlertConditionMet = testAlertCondition(200);
     assertTrue(actualAlertConditionMet);
   }
 
   @Test
-  void testIsAlertConditionFalse(){
+  void testIsAlertConditionTrue(){
     boolean actualAlertConditionMet = testAlertCondition(160);
     assertFalse(actualAlertConditionMet);
   }
