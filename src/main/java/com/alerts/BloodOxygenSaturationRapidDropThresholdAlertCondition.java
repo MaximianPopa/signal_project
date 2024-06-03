@@ -19,6 +19,11 @@ public class BloodOxygenSaturationRapidDropThresholdAlertCondition implements Al
     List<PatientRecord> lastRecords = patient.getRecords(currentTimeMillis() - 60_000,
       currentTimeMillis(), "Saturation");
 
+    if(lastRecords.isEmpty())
+    {
+      return false;
+    }
+
     double minValue = getMinRecordValue(lastRecords);
     double maxValue = getMaxRecordValue(lastRecords);
 
