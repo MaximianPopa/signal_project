@@ -7,31 +7,31 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BloodOxygenSaturationBelowThresholdAlertConditionTest {
-  //TODO: change the conditions, correct the tests
-  @Test
-  void testIsAlertConditionFalse() {
-    boolean actualAlertConditionMet = testAlertCondition(200);
-    assertTrue(actualAlertConditionMet);
-  }
 
   @Test
-  void testIsAlertConditionTrue(){
-    boolean actualAlertConditionMet = testAlertCondition(160);
+  void testIsAlertConditionFalse() {
+    boolean actualAlertConditionMet = testAlertCondition(100);
     assertFalse(actualAlertConditionMet);
   }
 
   @Test
+  void testIsAlertConditionTrue(){
+    boolean actualAlertConditionMet = testAlertCondition(90);
+    assertTrue(actualAlertConditionMet);
+  }
+
+  @Test
   void testIsAlertConditionFalseWhenNoData(){
-    var alertCondition = new SystolicPressureAboveThresholdAlertCondition();
+    var alertCondition = new BloodOxygenSaturationBelowThresholdAlertCondition();
     Patient patient = new Patient(1);
     boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   private static boolean testAlertCondition(int measurementValue) {
-    var alertCondition = new SystolicPressureAboveThresholdAlertCondition();
+    var alertCondition = new BloodOxygenSaturationBelowThresholdAlertCondition();
     Patient patient = new Patient(1);
-    patient.addRecord(measurementValue, "SystolicPressure", System.currentTimeMillis());
+    patient.addRecord(measurementValue, "Saturation", System.currentTimeMillis());
     return alertCondition.isAlertConditionMet(patient);
   }
 

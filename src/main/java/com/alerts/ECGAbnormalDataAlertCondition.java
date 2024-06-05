@@ -26,7 +26,7 @@ public class ECGAbnormalDataAlertCondition implements AlertCondition{
       return false;
     }
 
-    // We dont want to include the last value in avg calc
+    // We don't want to include the last value in avg calc
     double averageOfSlidingWindow = getAverageValue(lastRecords.subList(0, lastRecords.size() - 1));
     double lastValue = lastRecords.getLast().getMeasurementValue();
 

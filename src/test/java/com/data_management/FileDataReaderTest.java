@@ -14,7 +14,7 @@ public class FileDataReaderTest {
 
   @Test
   void testReadData() throws IOException {
-    DataReader reader = new FileDataReader("D:\\signal_project\\src\\test\\resources\\test_data");
+    DataReader reader = new FileDataReader("src/test/resources/test_data");
     DataStorage storage = new DataStorage();
     reader.readData(storage);
     assertEquals(2, storage.getAllPatients().size());
