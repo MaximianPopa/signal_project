@@ -17,7 +17,9 @@ public class TrendUtilities {
 
     for(int i = 1; i < lastRecords.size(); i++)
     {
-      if(lastRecords.get(i-1).getMeasurementValue() <= lastRecords.get(i).getMeasurementValue() + 10)
+      double value = lastRecords.get(i-1).getMeasurementValue();
+      double nextValue = lastRecords.get(i).getMeasurementValue();
+      if(!(value > nextValue + 10))
       {
         return false;
       }
@@ -34,7 +36,9 @@ public class TrendUtilities {
 
     for(int i = 1; i < lastRecords.size(); i++)
     {
-      if(lastRecords.get(i-1).getMeasurementValue() >= lastRecords.get(i).getMeasurementValue() - 10)
+      double value = lastRecords.get(i - 1).getMeasurementValue();
+      double nextValue = lastRecords.get(i).getMeasurementValue();
+      if(!(value < nextValue - 10))
       {
         return false;
       }

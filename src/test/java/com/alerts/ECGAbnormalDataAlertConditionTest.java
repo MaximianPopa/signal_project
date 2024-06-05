@@ -39,11 +39,4 @@ public class ECGAbnormalDataAlertConditionTest {
     assertFalse(actualAlertConditionMet);
   }
 
-  private static boolean testAlertCondition(int measurementValue) {
-    var alertCondition = new ECGAbnormalDataAlertCondition();
-    Patient patient = new Patient(1);
-    patient.addRecord(measurementValue, "ECG", System.currentTimeMillis());
-    return alertCondition.isAlertConditionMet(patient);
-  }
-
 }
