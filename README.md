@@ -68,4 +68,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Student ID: 6352237
 
 ## UML Link
-- This is the link to the UML diagrams, together with their descriptions: [link](./uml_models)
+- Click [here](./uml_models) to the UML diagrams, together with their descriptions
+
+
+## About Week 4
+- The Code coverage documentation, Unit test verification and the UML class diagram for week four is in [week4 folder](./week4)
