@@ -42,7 +42,7 @@ public class FileDataReader implements DataReader{
   }
 
   private void readDataFromFile(DataStorage dataStorage, String fileName) throws IOException {
-    String filePath = dataDirectory + "\\" + fileName;
+    String filePath = dataDirectory + "/" + fileName;
     List<String> allLines = Files.readAllLines(Paths.get((filePath)));
 
     for (String line : allLines) {
