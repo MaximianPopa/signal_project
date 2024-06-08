@@ -5,30 +5,33 @@ public class PatientRecordParser {
     private static final String ALERT = "Alert";
 
     public static PatientRecord parseLine(String line) {
+        try {
+            int patientId = getPatientId(line);
+            long timestamp = getTimestamp(line);
+            String label = getLabel(line);
+            Double data = getData(line, label);
 
-        int patientId = getPatientId(line);
-        long timestamp = getTimestamp(line);
-        String label = getLabel(line);
-        Double data = getData(line, label);
-
-        return new PatientRecord(patientId, data, label, timestamp);
+            return new PatientRecord(patientId, data, label, timestamp);
+        } catch (Exception e) {
+            throw new PatientRecordFormatException("Illegal patient record line: " + line + ", with error: " + e, e);
+        }
     }
 
-    private static int getPatientId(String fileLine){
+    private static int getPatientId(String line){
         String patientIdPrefix = "Patient ID";
-        return Integer.parseInt(getField(fileLine, patientIdPrefix));
+        return Integer.parseInt(getField(line, patientIdPrefix));
     }
-    private static long getTimestamp(String fileLine){
+    private static long getTimestamp(String line){
         String timestampPrefix = "Timestamp";
-        return Long.parseLong(getField(fileLine, timestampPrefix));
+        return Long.parseLong(getField(line, timestampPrefix));
     }
-    private static String getLabel(String fileLine){
+    private static String getLabel(String line){
         String labelPrefix = "Label";
-        return getField(fileLine, labelPrefix);
+        return getField(line, labelPrefix);
     }
-    private static Double getData(String fileLine, String label){
+    private static Double getData(String line, String label){
         String labelPrefix = "Data";
-        String fieldValue = getField(fileLine, labelPrefix).replace("%", "");
+        String fieldValue = getField(line, labelPrefix).replace("%", "");
         if(label.equalsIgnoreCase(ALERT))
         {
             if(fieldValue.equalsIgnoreCase("resolved"))
@@ -44,15 +47,15 @@ public class PatientRecordParser {
         }
     }
 
-    private static String getField(String fileLine, String fieldName){
+    private static String getField(String line, String fieldName){
         String fieldPrefix = fieldName + ": ";
-        int startOfFieldValue = fileLine.indexOf(fieldPrefix) + fieldPrefix.length();
-        int endOfFieldValue = fileLine.indexOf(",", startOfFieldValue);
+        int startOfFieldValue = line.indexOf(fieldPrefix) + fieldPrefix.length();
+        int endOfFieldValue = line.indexOf(",", startOfFieldValue);
         if(endOfFieldValue == -1)
         {
-            endOfFieldValue = fileLine.length();
+            endOfFieldValue = line.length();
         }
-        return fileLine.substring(startOfFieldValue, endOfFieldValue);
+        return line.substring(startOfFieldValue, endOfFieldValue);
     }
 
 }
