@@ -44,9 +44,13 @@ public class WebSocketDataReader implements DataReader {
     @Override
     public void onMessage(String message) {
       //System.out.println("Received message from server: " + message);
-      PatientRecord patientRecord = PatientRecordParser.parseLine(message);
-      dataStorage.addPatientData(patientRecord.getPatientId(), patientRecord.getMeasurementValue(),
-        patientRecord.getRecordType(), patientRecord.getTimestamp());
+      try {
+        PatientRecord patientRecord = PatientRecordParser.parseLine(message);
+        dataStorage.addPatientData(patientRecord.getPatientId(), patientRecord.getMeasurementValue(),
+          patientRecord.getRecordType(), patientRecord.getTimestamp());
+      } catch (PatientRecordFormatException e) {
+        System.out.println("Skipping invalid line: " + message);
+      }
     }
 
     @Override
