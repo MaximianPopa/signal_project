@@ -1,5 +1,6 @@
 package com.data_management;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,17 +83,24 @@ public class DataStorage {
      * 
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        DataStorage storage = new DataStorage();
+
+        // Initialize the AlertGenerator with the storage
+        AlertGenerator alertGenerator = new AlertGenerator(storage);
+
+        DataReader reader = new WebSocketDataReader(7777);
+        reader.readData(storage);
+
         // DataReader is not defined in this scope, should be initialized appropriately.
         // DataReader reader = new SomeDataReaderImplementation("path/to/data");
-        DataStorage storage = new DataStorage();
 
         // Assuming the reader has been properly initialized and can read data into the
         // storage
         // reader.readData(storage);
-
         // Example of using DataStorage to retrieve and print records for a patient
-        List<PatientRecord> records = storage.getRecords(1, 1700000000000L, 1800000000000L);
+        List<PatientRecord> records = storage.getRecords(
+          1, 1700000000000L, 1800000000000L);
         for (PatientRecord record : records) {
             System.out.println("Record for Patient ID: " + record.getPatientId() +
                     ", Type: " + record.getRecordType() +
@@ -100,12 +108,14 @@ public class DataStorage {
                     ", Timestamp: " + record.getTimestamp());
         }
 
-        // Initialize the AlertGenerator with the storage
-        AlertGenerator alertGenerator = new AlertGenerator(storage);
-
-        // Evaluate all patients' data to check for conditions that may trigger alerts
-        for (Patient patient : storage.getAllPatients()) {
-            alertGenerator.evaluateData(patient);
+        while (true) {
+            // Evaluate all patients' data to check for conditions that may trigger alerts
+            for (Patient patient : storage.getAllPatients()) {
+                alertGenerator.evaluateData(patient);
+            }
+            Thread.sleep(1_000);
         }
+
     }
+
 }
