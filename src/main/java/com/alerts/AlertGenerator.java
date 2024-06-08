@@ -11,6 +11,7 @@ import com.data_management.Patient;
  */
 public class AlertGenerator {
     private DataStorage dataStorage;
+    private final AlertDeliverer alertDeliverer;
 
     /**
      * Constructs an {@code AlertGenerator} with a specified {@code DataStorage}.
@@ -21,7 +22,12 @@ public class AlertGenerator {
      *                    data
      */
     public AlertGenerator(DataStorage dataStorage) {
+        this(dataStorage, new ConsoleAlertDeliverer());
+    }
+
+    public AlertGenerator(DataStorage dataStorage, AlertDeliverer alertDeliverer) {
         this.dataStorage = dataStorage;
+      this.alertDeliverer = alertDeliverer;
     }
 
     /**
@@ -54,6 +60,6 @@ public class AlertGenerator {
      */
     private void triggerAlert(Alert alert) {
         // Implementation might involve logging the alert or notifying staff
-        System.out.println("Sending alert to staff members: " + alert);
+        alertDeliverer.deliverAlert(alert);
     }
 }
