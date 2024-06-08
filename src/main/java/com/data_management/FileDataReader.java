@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FileDataReader implements DataReader{
 
-  public static final String ALERT_TXT = "Alert.txt";
+  private static final String ALERT = "Alert";
   private final String dataDirectory;
 
   public FileDataReader(String dataDirectory) {
@@ -46,12 +46,20 @@ public class FileDataReader implements DataReader{
     List<String> allLines = Files.readAllLines(Paths.get((filePath)));
 
     for (String line : allLines) {
-      int patientId = getPatientId(line);
-      long timestamp = getTimestamp(line);
-      String label = getLabel(line);
-      Double data = getData(line, fileName);
-      dataStorage.addPatientData(patientId, data, label, timestamp);
+      PatientRecord patientRecord = parseLine(line);
+      dataStorage.addPatientData(patientRecord.getPatientId(), patientRecord.getMeasurementValue(),
+              patientRecord.getRecordType(), patientRecord.getTimestamp());
     }
+  }
+
+  private PatientRecord parseLine(String line) {
+
+    int patientId = getPatientId(line);
+    long timestamp = getTimestamp(line);
+    String label = getLabel(line);
+    Double data = getData(line, label);
+
+    return new PatientRecord(patientId, data, label, timestamp);
   }
 
   private static String getField(String fileLine, String fieldName){
@@ -77,10 +85,10 @@ public class FileDataReader implements DataReader{
     String labelPrefix = "Label";
     return getField(fileLine, labelPrefix);
   }
-  private static Double getData(String fileLine, String fileName){
+  private static Double getData(String fileLine, String label){
     String labelPrefix = "Data";
     String fieldValue = getField(fileLine, labelPrefix).replace("%", "");
-    if(fileName.equalsIgnoreCase(ALERT_TXT))
+    if(label.equalsIgnoreCase(ALERT))
     {
       if(fieldValue.equalsIgnoreCase("resolved"))
       {
