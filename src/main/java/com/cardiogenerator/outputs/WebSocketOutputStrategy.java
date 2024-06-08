@@ -15,6 +15,14 @@ public class WebSocketOutputStrategy implements OutputStrategy {
         server.start();
     }
 
+    public void start() throws InterruptedException {
+        server.start();
+    }
+
+    public void stop() throws InterruptedException {
+        server.stop();
+    }
+
     @Override
     public void output(int patientId, long timestamp, String label, String data) {
         String message = String.format("Patient ID: %d, Timestamp: %d, Label: %s, Data: %s",

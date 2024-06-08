@@ -9,22 +9,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EndToEndTest {
+public class NetworkErrorTest {
 
-  public static final int PORT_NUMBER = 7777;
+  public static final int PORT_NUMBER = 8888;
 
   @Test
   void testValidMessageHandling() throws InterruptedException {
+
     DataStorage dataStorage = new DataStorage();
-    ArrayList<Alert> generatedAlerts = new ArrayList<>();
-    AlertGenerator alertGenerator = new AlertGenerator(dataStorage, new AlertDeliverer() {
-      @Override
-      public void deliverAlert(Alert alert) {
-        generatedAlerts.add(alert);
-      }
-    });
+
     WebSocketDataReader reader = new WebSocketDataReader(PORT_NUMBER);
     WebSocketOutputStrategy output = new WebSocketOutputStrategy(PORT_NUMBER);
     reader.readData(dataStorage);
@@ -40,14 +35,14 @@ public class EndToEndTest {
     List<PatientRecord> expectedPatientRecords = List.of(expected);
     assertEquals(expectedPatientRecords, patientRecords);
 
-    for (Patient patient : dataStorage.getAllPatients()) {
-      alertGenerator.evaluateData(patient);
-    }
-    assertEquals(1, generatedAlerts.size());
-    Alert expectedAlert = new Alert(String.valueOf(patientId), "The alert button was triggered", recordTimestamp);
-    Alert actualAlert = generatedAlerts.getFirst();
-    assertEquals(expectedAlert.getPatientId(), actualAlert.getPatientId());
-    assertEquals(expectedAlert.getCondition(), actualAlert.getCondition());
+    output.stop();
+    Thread.sleep(1_000);
+    output.start();
+    output.output(patientId, System.currentTimeMillis(), "Alert", "resolved");
+    Thread.sleep(1_000);
+    List<PatientRecord> newPatientRecords = dataStorage.getRecords(patientId, recordTimestamp - 1, recordTimestamp);
+    assertEquals(2, newPatientRecords.size());
+
   }
 
 }
