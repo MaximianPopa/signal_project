@@ -6,11 +6,13 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class WebSocketDataReader implements DataReader {
 
   private final int portNumber;
+  private final AtomicBoolean isReconnecting = new AtomicBoolean(false);
 
   public WebSocketDataReader(int portNumber) {
     this.portNumber = portNumber;
@@ -18,14 +20,29 @@ public class WebSocketDataReader implements DataReader {
 
   @Override
   public void readData(DataStorage dataStorage) throws IOException {
+    startMessageConsumption(dataStorage);
+  }
+
+  private void startMessageConsumption(DataStorage dataStorage) {
     try {
       WebSocketClient client = new SimpleWebSocketClient(new URI("ws://localhost:" + portNumber), dataStorage);
       client.connect();
     } catch (URISyntaxException e) {
-      throw new IOException(e);
+      throw new RuntimeException(e);
     }
   }
 
+
+  private void reconnect(DataStorage dataStorage) {
+    if (!isReconnecting.compareAndSet(false, true)) {
+      System.out.println("Already reconnecting...");
+      return;
+    }
+    System.out.println("Attempting to reconnect...");
+
+    // Create a new WebSocketClient instance and attempt to connect
+    startMessageConsumption(dataStorage);
+  }
 
   class SimpleWebSocketClient extends WebSocketClient {
 
@@ -39,6 +56,7 @@ public class WebSocketDataReader implements DataReader {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
       System.out.println("Opened connection");
+      isReconnecting.set(false);
     }
 
     @Override
@@ -56,11 +74,15 @@ public class WebSocketDataReader implements DataReader {
     @Override
     public void onClose(int code, String reason, boolean remote) {
       System.out.println("Closed connection");
+      if (code!= 1000 || remote) {
+        WebSocketDataReader.this.reconnect(dataStorage); // Attempt to reconnect if disconnected unexpectedly
+      }
     }
 
     @Override
     public void onError(Exception ex) {
       ex.printStackTrace();
+      WebSocketDataReader.this.reconnect(dataStorage);
     }
 
   }
