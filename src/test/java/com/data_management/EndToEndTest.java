@@ -29,11 +29,12 @@ public class EndToEndTest {
     //sleep for one second, let the client connect to server
     Thread.sleep(1_000);
     long recordTimestamp = System.currentTimeMillis();
-    output.output(1, recordTimestamp, "Alert", "triggered");
+    int patientId = 7;
+    output.output(patientId, recordTimestamp, "Alert", "triggered");
     //sleep for one second, let the client add data to data storage
     Thread.sleep(1_000);
-    List<PatientRecord> patientRecords = dataStorage.getRecords(1, recordTimestamp - 1, recordTimestamp);
-    PatientRecord expected = new PatientRecord(1, 1, "Alert", recordTimestamp);
+    List<PatientRecord> patientRecords = dataStorage.getRecords(patientId, recordTimestamp - 1, recordTimestamp);
+    PatientRecord expected = new PatientRecord(patientId, 1, "Alert", recordTimestamp);
     List<PatientRecord> expectedPatientRecords = List.of(expected);
     assertEquals(expectedPatientRecords, patientRecords);
 
@@ -41,7 +42,7 @@ public class EndToEndTest {
       alertGenerator.evaluateData(patient);
     }
     assertEquals(1, generatedAlerts.size());
-    Alert expectedAlert = new Alert("1", "The alert button was triggered", recordTimestamp);
+    Alert expectedAlert = new Alert(String.valueOf(patientId), "The alert button was triggered", recordTimestamp);
     Alert actualAlert = generatedAlerts.getFirst();
     assertEquals(expectedAlert.getPatientId(), actualAlert.getPatientId());
     assertEquals(expectedAlert.getCondition(), actualAlert.getCondition());
