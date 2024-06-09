@@ -22,6 +22,13 @@ public class ReconnectingWebSocketClient {
     }
   }
 
+  public void stop(){
+    if(websocketClient != null)
+    {
+      websocketClient.close();
+    }
+  }
+
   public void startWebSocketClient() {
     websocketClient = new WebSocketClient(serverUri) {
       @Override
@@ -53,7 +60,7 @@ public class ReconnectingWebSocketClient {
     websocketClient.connect();
   }
 
-  private void reconnectToServer() {
+  public void reconnectToServer() {
     if (!isReconnecting.compareAndSet(false, true)) {
       System.out.println("Already reconnecting...");
       return;

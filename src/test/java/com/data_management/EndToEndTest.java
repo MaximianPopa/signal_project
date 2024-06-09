@@ -48,6 +48,8 @@ public class EndToEndTest {
     Alert actualAlert = generatedAlerts.getFirst();
     assertEquals(expectedAlert.getPatientId(), actualAlert.getPatientId());
     assertEquals(expectedAlert.getCondition(), actualAlert.getCondition());
+    reader.stop();
+    output.stop();
   }
 
 }

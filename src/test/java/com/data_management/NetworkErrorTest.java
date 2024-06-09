@@ -1,12 +1,8 @@
 package com.data_management;
 
-import com.alerts.Alert;
-import com.alerts.AlertDeliverer;
-import com.alerts.AlertGenerator;
 import com.cardiogenerator.outputs.WebSocketOutputStrategy;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,14 +31,15 @@ public class NetworkErrorTest {
     List<PatientRecord> expectedPatientRecords = List.of(expected);
     assertEquals(expectedPatientRecords, patientRecords);
 
-    output.stop();
-    Thread.sleep(1_000);
-    output.start();
+    reader.stop();
+    reader.reconnectToServer();
+    Thread.sleep(2_000);
     output.output(patientId, System.currentTimeMillis(), "Alert", "resolved");
     Thread.sleep(1_000);
-    List<PatientRecord> newPatientRecords = dataStorage.getRecords(patientId, recordTimestamp - 1, recordTimestamp);
+    List<PatientRecord> newPatientRecords = dataStorage.getRecords(patientId, recordTimestamp - 1, System.currentTimeMillis());
     assertEquals(2, newPatientRecords.size());
-
+    reader.stop();
+    output.stop();
   }
 
 }

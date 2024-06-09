@@ -3,6 +3,7 @@ package com.data_management;
 public class WebSocketDataReader implements DataReader {
 
   private final int portNumber;
+  private ReconnectingWebSocketClient client;
 
   public WebSocketDataReader(int portNumber) {
     this.portNumber = portNumber;
@@ -10,8 +11,7 @@ public class WebSocketDataReader implements DataReader {
 
   @Override
   public void readData(DataStorage dataStorage) {
-    ReconnectingWebSocketClient client =
-      new ReconnectingWebSocketClient("ws://localhost:" + portNumber, new MessageHandler() {
+    client = new ReconnectingWebSocketClient("ws://localhost:" + portNumber, new MessageHandler() {
       @Override
       public void handle(String message) {
         try {
@@ -25,5 +25,17 @@ public class WebSocketDataReader implements DataReader {
     });
     client.startWebSocketClient();
   }
+
+  public void stop(){
+    if(client != null)
+    {
+      client.stop();
+    }
+  }
+
+  public void reconnectToServer(){
+    client.reconnectToServer();
+  }
+
 
 }
