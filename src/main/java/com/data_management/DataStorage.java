@@ -16,9 +16,18 @@ import com.alerts.AlertGenerator;
 public class DataStorage {
     private Map<Integer, Patient> patientMap; // Stores patient objects indexed by their unique patient ID.
 
+    private final static DataStorage INSTANCE = new DataStorage();
+
+    public static DataStorage getInstance(){
+        return INSTANCE;
+    }
+
+
     /**
      * Constructs a new instance of DataStorage, initializing the underlying storage
      * structure.
+     * </p>
+     * This class is a singleton, but we keep the constructor public, so it can be instantiated in tests.
      */
     public DataStorage() {
         this.patientMap = new HashMap<>();
@@ -84,13 +93,15 @@ public class DataStorage {
      * @param args command line arguments
      */
     public static void main(String[] args) throws IOException, InterruptedException {
-        DataStorage storage = new DataStorage();
+        DataStorage.getInstance().runDataStorage();
+    }
 
+    public void runDataStorage() throws IOException, InterruptedException {
         // Initialize the AlertGenerator with the storage
-        AlertGenerator alertGenerator = new AlertGenerator(storage);
+        AlertGenerator alertGenerator = new AlertGenerator(this);
 
         DataReader reader = new WebSocketDataReader(7777);
-        reader.readData(storage);
+        reader.readData(this);
 
         // DataReader is not defined in this scope, should be initialized appropriately.
         // DataReader reader = new SomeDataReaderImplementation("path/to/data");
@@ -99,7 +110,7 @@ public class DataStorage {
         // storage
         // reader.readData(storage);
         // Example of using DataStorage to retrieve and print records for a patient
-        List<PatientRecord> records = storage.getRecords(
+        List<PatientRecord> records = this.getRecords(
           1, 1700000000000L, 1800000000000L);
         for (PatientRecord record : records) {
             System.out.println("Record for Patient ID: " + record.getPatientId() +
@@ -110,12 +121,11 @@ public class DataStorage {
 
         while (true) {
             // Evaluate all patients' data to check for conditions that may trigger alerts
-            for (Patient patient : storage.getAllPatients()) {
+            for (Patient patient : this.getAllPatients()) {
                 alertGenerator.evaluateData(patient);
             }
             Thread.sleep(1_000);
         }
-
     }
 
 }
