@@ -1,9 +1,18 @@
 package com.data_management;
 
+/**
+ * Parses the patient records
+ */
 public class PatientRecordParser {
 
     private static final String ALERT = "Alert";
 
+    /**
+     * Parses PatientRecord from a line
+     *
+     * @param line encoded PatientRecord
+     * @return parsed PatientRecord object
+     */
     public static PatientRecord parseLine(String line) {
         try {
             int patientId = getPatientId(line);
@@ -17,18 +26,46 @@ public class PatientRecordParser {
         }
     }
 
+    /**
+     * Extracts the patient ID from the line
+     *
+     * @param line Line containing the patient record
+     * @return Extracted patient ID of type integer
+     */
     private static int getPatientId(String line){
         String patientIdPrefix = "Patient ID";
         return Integer.parseInt(getField(line, patientIdPrefix));
     }
+
+    /**
+     * Extracts the timestamp from the line
+     *
+     * @param line Line containing the patient record
+     * @return Extracted timestamp of type long
+     */
     private static long getTimestamp(String line){
         String timestampPrefix = "Timestamp";
         return Long.parseLong(getField(line, timestampPrefix));
     }
+
+    /**
+     * Extracts the label from the line
+     *
+     * @param line Line containing the patient record
+     * @return Extracted label of type string
+     */
     private static String getLabel(String line){
         String labelPrefix = "Label";
         return getField(line, labelPrefix);
     }
+
+    /**
+     * Extracts the data associated with the label from the line
+     *
+     * @param line Line containing the patient record
+     * @param label Label associated with the data
+     * @return Extracted data of type Double
+     */
     private static Double getData(String line, String label){
         String labelPrefix = "Data";
         String fieldValue = getField(line, labelPrefix).replace("%", "");
@@ -47,6 +84,13 @@ public class PatientRecordParser {
         }
     }
 
+    /**
+     * Extracts a field value from the line based on its prefix
+     *
+     * @param line Line containing the patient record
+     * @param fieldName Prefix identifying the field to extract
+     * @return Extracted field value as a string
+     */
     private static String getField(String line, String fieldName){
         String fieldPrefix = fieldName + ": ";
         int startOfFieldValue = line.indexOf(fieldPrefix) + fieldPrefix.length();
