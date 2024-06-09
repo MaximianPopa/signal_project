@@ -3,7 +3,7 @@ package com.alerts;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-public class TriggeredAlertAlertCondition implements AlertCondition{
+public class TriggeredAlertAlertStrategy implements AlertStrategy {
 
   private static final double ALERT_UNTRIGGERED = 0;
 
@@ -13,7 +13,7 @@ public class TriggeredAlertAlertCondition implements AlertCondition{
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
+  public boolean checkAlert(Patient patient) {
     PatientRecord lastAlertRecord = patient.getLastRecord("Alert");
 
     if(lastAlertRecord == null)

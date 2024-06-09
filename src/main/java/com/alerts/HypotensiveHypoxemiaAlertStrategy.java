@@ -3,7 +3,7 @@ package com.alerts;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-public class HypotensiveHypoxemiaAlertCondition implements AlertCondition{
+public class HypotensiveHypoxemiaAlertStrategy implements AlertStrategy {
 
   @Override
   public String getAlertDescription() {
@@ -11,7 +11,7 @@ public class HypotensiveHypoxemiaAlertCondition implements AlertCondition{
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
+  public boolean checkAlert(Patient patient) {
     PatientRecord systolicLastRecord = patient.getLastRecord("SystolicPressure");
     PatientRecord bloodOxygenLastRecord = patient.getLastRecord("Saturation");
     if(systolicLastRecord == null || bloodOxygenLastRecord == null)

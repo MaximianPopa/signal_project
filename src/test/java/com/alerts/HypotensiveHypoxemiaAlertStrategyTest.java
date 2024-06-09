@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class HypotensiveHypoxemiaAlertConditionTest {
+public class HypotensiveHypoxemiaAlertStrategyTest {
 
   @Test
   void testIsAlertConditionFalseBothThresholdExceeded() {
@@ -34,36 +34,36 @@ public class HypotensiveHypoxemiaAlertConditionTest {
 
   @Test
   void testIsAlertConditionFalseWhenNoData(){
-    var alertCondition = new HypotensiveHypoxemiaAlertCondition();
+    var alertCondition = new HypotensiveHypoxemiaAlertStrategy();
     Patient patient = new Patient(1);
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertCondition.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   @Test
   void testIsAlertConditionFalseWhenNoSystolicData(){
-    var alertCondition = new HypotensiveHypoxemiaAlertCondition();
+    var alertCondition = new HypotensiveHypoxemiaAlertStrategy();
     Patient patient = new Patient(1);
     patient.addRecord(100, "SystolicPressure", System.currentTimeMillis());
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertCondition.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   @Test
   void testIsAlertConditionFalseWhenNoSaturationData(){
-    var alertCondition = new HypotensiveHypoxemiaAlertCondition();
+    var alertCondition = new HypotensiveHypoxemiaAlertStrategy();
     Patient patient = new Patient(1);
     patient.addRecord(100, "Saturation", System.currentTimeMillis());
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertCondition.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   private static boolean testAlertCondition(double systolicPressure, double saturation) {
-    var alertCondition = new HypotensiveHypoxemiaAlertCondition();
+    var alertCondition = new HypotensiveHypoxemiaAlertStrategy();
     Patient patient = new Patient(1);
     patient.addRecord(systolicPressure, "SystolicPressure", System.currentTimeMillis());
     patient.addRecord(saturation, "Saturation", System.currentTimeMillis());
-    return alertCondition.isAlertConditionMet(patient);
+    return alertCondition.checkAlert(patient);
   }
 
 }

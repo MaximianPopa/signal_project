@@ -7,7 +7,7 @@ import static java.lang.System.currentTimeMillis;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BloodOxygenSaturationRapidDropThresholdAlertConditionTest {
+public class BloodOxygenSaturationRapidDropThresholdAlertStrategyTest {
   
   @Test
   void testIsAlertConditionFalse() {
@@ -32,28 +32,28 @@ public class BloodOxygenSaturationRapidDropThresholdAlertConditionTest {
 
   @Test
   void testIsAlertConditionFalseWhenNoData(){
-    var alertCondition = new BloodOxygenSaturationRapidDropThresholdAlertCondition();
+    var alertCondition = new BloodOxygenSaturationRapidDropThresholdAlertStrategy();
     Patient patient = new Patient(1);
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertCondition.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   @Test
   void testIsAlertConditionFalseWhenSingleDataPoint(){
-    var alertCondition = new BloodOxygenSaturationRapidDropThresholdAlertCondition();
+    var alertCondition = new BloodOxygenSaturationRapidDropThresholdAlertStrategy();
     Patient patient = new Patient(1);
     patient.addRecord(10, "Saturation", currentTimeMillis());
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertCondition.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   private static boolean testAlertCondition(long timestamp1, double measurement1,
                                             long timestamp2, double measurement2) {
-    var alertCondition = new BloodOxygenSaturationRapidDropThresholdAlertCondition();
+    var alertCondition = new BloodOxygenSaturationRapidDropThresholdAlertStrategy();
     Patient patient = new Patient(1);
     patient.addRecord(measurement1, "Saturation", timestamp1);
     patient.addRecord(measurement2, "Saturation", timestamp2);
-    return alertCondition.isAlertConditionMet(patient);
+    return alertCondition.checkAlert(patient);
   }
 
 }

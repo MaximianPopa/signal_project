@@ -41,13 +41,13 @@ public class AlertGenerator {
      * @param patient the patient data to evaluate for alert conditions
      */
     public void evaluateData(Patient patient) {
-        for (AlertCondition alertCondition : AlertConditionRegistry.getAlertConditions()) {
-            if(alertCondition.isAlertConditionMet(patient)){
+        for (AlertStrategy alertStrategy : AlertConditionRegistry.getAlertConditions()) {
+            if(alertStrategy.checkAlert(patient)){
 //                Alert alert = new Alert(patient.getPatientId(),
 //                  alertCondition.getAlertDescription());
-                AlertFactory alertFactory = alertCondition.getAlertFactory();
+                AlertFactory alertFactory = alertStrategy.getAlertFactory();
                 Alert alert = alertFactory.createAlert(String.valueOf(patient.getPatientId()),
-                  alertCondition.getAlertDescription(), System.currentTimeMillis());
+                  alertStrategy.getAlertDescription(), System.currentTimeMillis());
                 triggerAlert(alert);
             }
         }

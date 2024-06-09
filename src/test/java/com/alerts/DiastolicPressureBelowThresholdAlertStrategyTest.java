@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DiastolicPressureBelowThresholdAlertConditionTest {
+public class DiastolicPressureBelowThresholdAlertStrategyTest {
   
   @Test
   void testIsAlertConditionFalse() {
@@ -22,17 +22,17 @@ public class DiastolicPressureBelowThresholdAlertConditionTest {
 
   @Test
   void testIsAlertConditionFalseWhenNoData(){
-    var alertCondition = new DiastolicPressureBelowThresholdAlertCondition();
+    var alertCondition = new DiastolicPressureBelowThresholdAlertStrategy();
     Patient patient = new Patient(1);
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertCondition.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   private static boolean testAlertCondition(int measurementValue) {
-    var alertCondition = new DiastolicPressureBelowThresholdAlertCondition();
+    var alertCondition = new DiastolicPressureBelowThresholdAlertStrategy();
     Patient patient = new Patient(1);
     patient.addRecord(measurementValue, "DiastolicPressure", System.currentTimeMillis());
-    return alertCondition.isAlertConditionMet(patient);
+    return alertCondition.checkAlert(patient);
   }
 
 }

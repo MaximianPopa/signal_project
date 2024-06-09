@@ -7,7 +7,7 @@ import java.util.List;
 
 import static java.lang.System.currentTimeMillis;
 
-public class ECGAbnormalDataAlertCondition implements AlertCondition{
+public class ECGAbnormalDataAlertStrategy implements AlertStrategy {
 
   private static final long MOVING_WINDOW_DURATION_MILLIS = 180_000;
 
@@ -17,7 +17,7 @@ public class ECGAbnormalDataAlertCondition implements AlertCondition{
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
+  public boolean checkAlert(Patient patient) {
     List<PatientRecord> lastRecords = patient.getRecords(currentTimeMillis() - MOVING_WINDOW_DURATION_MILLIS,
       currentTimeMillis(), "ECG");
 

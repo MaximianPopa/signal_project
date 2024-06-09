@@ -2,11 +2,11 @@ package com.alerts;
 
 import com.data_management.Patient;
 
-public interface AlertCondition {
+public interface AlertStrategy {
 
   String getAlertDescription();
 
-  boolean isAlertConditionMet(Patient patient);
+  boolean checkAlert(Patient patient);
 
   AlertFactory getAlertFactory();
 

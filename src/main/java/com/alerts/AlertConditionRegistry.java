@@ -4,24 +4,24 @@ import java.util.List;
 
 public class AlertConditionRegistry {
 
-  private static final List<AlertCondition> ALERT_CONDITIONS =
+  private static final List<AlertStrategy> ALERT_CONDITIONS =
     List.of(
-      new SystolicBloodPressureDecreaseTrendAlertCondition(),
-      new SystolicBloodPressureIncreaseTrendAlertCondition(),
-      new DiastolicBloodPressureDecreaseTrendAlertCondition(),
-      new DiastolicBloodPressureIncreaseTrendAlertCondition(),
-      new SystolicPressureBelowThresholdAlertCondition(),
-      new SystolicPressureAboveThresholdAlertCondition(),
-      new DiastolicPressureBelowThresholdAlertCondition(),
-      new DiastolicPressureAboveThresholdAlertCondition(),
-      new BloodOxygenSaturationBelowThresholdAlertCondition(),
-      new BloodOxygenSaturationRapidDropThresholdAlertCondition(),
-      new HypotensiveHypoxemiaAlertCondition(),
-      new ECGAbnormalDataAlertCondition(),
-      new TriggeredAlertAlertCondition()
+      new SystolicBloodPressureDecreaseTrendAlertStrategy(),
+      new SystolicBloodPressureIncreaseTrendAlertStrategy(),
+      new DiastolicBloodPressureDecreaseTrendAlertStrategy(),
+      new DiastolicBloodPressureIncreaseTrendAlertStrategy(),
+      new SystolicPressureBelowThresholdAlertStrategy(),
+      new SystolicPressureAboveThresholdAlertStrategy(),
+      new DiastolicPressureBelowThresholdAlertStrategy(),
+      new DiastolicPressureAboveThresholdAlertStrategy(),
+      new BloodOxygenSaturationBelowThresholdAlertStrategy(),
+      new BloodOxygenSaturationRapidDropThresholdAlertStrategy(),
+      new HypotensiveHypoxemiaAlertStrategy(),
+      new ECGAbnormalDataAlertStrategy(),
+      new TriggeredAlertAlertStrategy()
     );
 
-  public static List<AlertCondition> getAlertConditions(){
+  public static List<AlertStrategy> getAlertConditions(){
 
     return ALERT_CONDITIONS;
   }

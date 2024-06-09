@@ -7,7 +7,7 @@ import java.util.List;
 
 import static java.lang.System.currentTimeMillis;
 
-public class BloodOxygenSaturationRapidDropThresholdAlertCondition implements AlertCondition{
+public class BloodOxygenSaturationRapidDropThresholdAlertStrategy implements AlertStrategy {
 
   @Override
   public String getAlertDescription() {
@@ -15,7 +15,7 @@ public class BloodOxygenSaturationRapidDropThresholdAlertCondition implements Al
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
+  public boolean checkAlert(Patient patient) {
     List<PatientRecord> lastRecords = patient.getRecords(currentTimeMillis() - 60_000,
       currentTimeMillis(), "Saturation");
 

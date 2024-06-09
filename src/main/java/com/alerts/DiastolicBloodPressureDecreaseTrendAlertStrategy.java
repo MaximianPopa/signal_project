@@ -7,7 +7,7 @@ import java.util.List;
 
 import static com.alerts.TrendUtilities.*;
 
-public class DiastolicBloodPressureDecreaseTrendAlertCondition implements AlertCondition{
+public class DiastolicBloodPressureDecreaseTrendAlertStrategy implements AlertStrategy {
 
   @Override
   public String getAlertDescription() {
@@ -15,7 +15,7 @@ public class DiastolicBloodPressureDecreaseTrendAlertCondition implements AlertC
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
+  public boolean checkAlert(Patient patient) {
     List<PatientRecord> lastRecords = patient.getLastNRecords("DiastolicPressure", NUMBER_OF_RECORDS);
     return isDecreasingTrend(lastRecords);
   }

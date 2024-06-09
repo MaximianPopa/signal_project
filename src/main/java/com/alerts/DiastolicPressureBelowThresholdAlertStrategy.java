@@ -3,23 +3,23 @@ package com.alerts;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-public class SystolicPressureBelowThresholdAlertCondition implements AlertCondition{
+public class DiastolicPressureBelowThresholdAlertStrategy implements AlertStrategy {
 
   @Override
   public String getAlertDescription() {
-    return "Systolic blood pressure below 90 mmHg";
+    return "Diastolic blood pressure below 60 mmHg";
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
-    PatientRecord lastRecord = patient.getLastRecord("SystolicPressure");
+  public boolean checkAlert(Patient patient) {
+    PatientRecord lastRecord = patient.getLastRecord("DiastolicPressure");
     if(lastRecord == null)
     {
       // We have no data from monitors of this type in the last 30 sec
       return false;
     }
 
-    return lastRecord.getMeasurementValue() < 90;
+    return lastRecord.getMeasurementValue() < 60;
   }
 
   @Override

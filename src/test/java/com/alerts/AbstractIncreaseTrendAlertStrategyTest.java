@@ -6,14 +6,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class AbstractIncreaseTrendAlertConditionTest {
+public abstract class AbstractIncreaseTrendAlertStrategyTest {
 
   private final String recordType;
-  private final AlertCondition alertCondition;
+  private final AlertStrategy alertStrategy;
 
-  public AbstractIncreaseTrendAlertConditionTest(String recordType, AlertCondition alertCondition) {
+  public AbstractIncreaseTrendAlertStrategyTest(String recordType, AlertStrategy alertStrategy) {
     this.recordType = recordType;
-    this.alertCondition = alertCondition;
+    this.alertStrategy = alertStrategy;
   }
 
   @Test
@@ -31,7 +31,7 @@ public abstract class AbstractIncreaseTrendAlertConditionTest {
   @Test
   void testIsAlertConditionFalseWhenNoData(){
     Patient patient = new Patient(1);
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertStrategy.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
@@ -40,7 +40,7 @@ public abstract class AbstractIncreaseTrendAlertConditionTest {
     patient.addRecord(value1, recordType, System.currentTimeMillis() - 10);
     patient.addRecord(value2, recordType, System.currentTimeMillis() - 5);
     patient.addRecord(value3, recordType, System.currentTimeMillis());
-    return alertCondition.isAlertConditionMet(patient);
+    return alertStrategy.checkAlert(patient);
   }
 
 }

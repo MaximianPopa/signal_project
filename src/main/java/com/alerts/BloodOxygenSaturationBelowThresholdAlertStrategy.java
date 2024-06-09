@@ -3,7 +3,7 @@ package com.alerts;
 import com.data_management.Patient;
 import com.data_management.PatientRecord;
 
-public class BloodOxygenSaturationBelowThresholdAlertCondition implements AlertCondition{
+public class BloodOxygenSaturationBelowThresholdAlertStrategy implements AlertStrategy {
 
   @Override
   public String getAlertDescription() {
@@ -11,7 +11,7 @@ public class BloodOxygenSaturationBelowThresholdAlertCondition implements AlertC
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
+  public boolean checkAlert(Patient patient) {
     PatientRecord lastRecord = patient.getLastRecord("Saturation");
     if(lastRecord == null)
     {

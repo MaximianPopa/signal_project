@@ -7,17 +7,17 @@ import java.util.List;
 
 import static com.alerts.TrendUtilities.*;
 
-public class SystolicBloodPressureDecreaseTrendAlertCondition implements AlertCondition{
+public class SystolicBloodPressureIncreaseTrendAlertStrategy implements AlertStrategy {
 
   @Override
   public String getAlertDescription() {
-    return "Systolic blood pressure decrease by more than 10 mmHg";
+    return "Systolic blood pressure increase by more than 10 mmHg";
   }
 
   @Override
-  public boolean isAlertConditionMet(Patient patient) {
+  public boolean checkAlert(Patient patient) {
     List<PatientRecord> lastRecords = patient.getLastNRecords("SystolicPressure", NUMBER_OF_RECORDS);
-    return isDecreasingTrend(lastRecords);
+    return isIncreasingTrend(lastRecords);
   }
 
   @Override

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TriggeredAlertAlertConditionTest {
+public class TriggeredAlertAlertStrategyTest {
 
   @Test
   void testIsAlertConditionTrue() {
@@ -22,17 +22,17 @@ public class TriggeredAlertAlertConditionTest {
 
   @Test
   void testIsAlertConditionFalseWhenNoData(){
-    var alertCondition = new TriggeredAlertAlertCondition();
+    var alertCondition = new TriggeredAlertAlertStrategy();
     Patient patient = new Patient(1);
-    boolean actualAlertConditionMet = alertCondition.isAlertConditionMet(patient);
+    boolean actualAlertConditionMet = alertCondition.checkAlert(patient);
     assertFalse(actualAlertConditionMet);
   }
 
   private static boolean testAlertCondition(int measurementValue) {
-    var alertCondition = new TriggeredAlertAlertCondition();
+    var alertCondition = new TriggeredAlertAlertStrategy();
     Patient patient = new Patient(1);
     patient.addRecord(measurementValue, "Alert", System.currentTimeMillis());
-    return alertCondition.isAlertConditionMet(patient);
+    return alertCondition.checkAlert(patient);
   }
 
 }
