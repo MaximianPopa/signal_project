@@ -4,7 +4,7 @@ public class ConsoleAlertDeliverer implements AlertDeliverer {
 
 
   @Override
-  public void deliverAlert(Alert alert) {
+  public void deliverAlert(GenericAlert alert) {
     System.out.println("Sending alert to staff members: " + alert);
   }
 }

@@ -1,6 +1,6 @@
 package com.data_management;
 
-import com.alerts.Alert;
+import com.alerts.GenericAlert;
 import com.alerts.AlertDeliverer;
 import com.alerts.AlertGenerator;
 import com.cardiogenerator.outputs.WebSocketOutputStrategy;
@@ -18,10 +18,10 @@ public class EndToEndTest {
   @Test
   void testValidMessageHandling() throws InterruptedException {
     DataStorage dataStorage = new DataStorage();
-    ArrayList<Alert> generatedAlerts = new ArrayList<>();
+    ArrayList<GenericAlert> generatedAlerts = new ArrayList<>();
     AlertGenerator alertGenerator = new AlertGenerator(dataStorage, new AlertDeliverer() {
       @Override
-      public void deliverAlert(Alert alert) {
+      public void deliverAlert(GenericAlert alert) {
         generatedAlerts.add(alert);
       }
     });
@@ -44,8 +44,8 @@ public class EndToEndTest {
       alertGenerator.evaluateData(patient);
     }
     assertEquals(1, generatedAlerts.size());
-    Alert expectedAlert = new Alert(String.valueOf(patientId), "The alert button was triggered", recordTimestamp);
-    Alert actualAlert = generatedAlerts.getFirst();
+    GenericAlert expectedAlert = new GenericAlert(String.valueOf(patientId), "The alert button was triggered", recordTimestamp);
+    GenericAlert actualAlert = generatedAlerts.getFirst();
     assertEquals(expectedAlert.getPatientId(), actualAlert.getPatientId());
     assertEquals(expectedAlert.getCondition(), actualAlert.getCondition());
     reader.stop();

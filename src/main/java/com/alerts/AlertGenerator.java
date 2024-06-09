@@ -46,7 +46,7 @@ public class AlertGenerator {
 //                Alert alert = new Alert(patient.getPatientId(),
 //                  alertCondition.getAlertDescription());
                 AlertFactory alertFactory = alertStrategy.getAlertFactory();
-                Alert alert = alertFactory.createAlert(String.valueOf(patient.getPatientId()),
+                GenericAlert alert = alertFactory.createAlert(String.valueOf(patient.getPatientId()),
                   alertStrategy.getAlertDescription(), System.currentTimeMillis());
                 triggerAlert(alert);
             }
@@ -61,7 +61,7 @@ public class AlertGenerator {
      *
      * @param alert the alert object containing details about the alert condition
      */
-    private void triggerAlert(Alert alert) {
+    private void triggerAlert(GenericAlert alert) {
         // Implementation might involve logging the alert or notifying staff
         alertDeliverer.deliverAlert(alert);
     }

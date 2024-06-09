@@ -2,8 +2,8 @@ package com.alerts;
 
 public class AlertFactory {
 
-  public Alert createAlert(String patientId, String condition, long timestamp) {
-    return new Alert(patientId, condition, timestamp);
+  public GenericAlert createAlert(String patientId, String condition, long timestamp) {
+    return new GenericAlert(patientId, condition, timestamp);
   }
 
 }
