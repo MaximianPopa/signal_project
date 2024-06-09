@@ -21,4 +21,9 @@ public class SystolicPressureAboveThresholdAlertCondition implements AlertCondit
 
     return lastRecord.getMeasurementValue() > 180;
   }
+
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new BloodPressureAlertFactory();
+  }
 }

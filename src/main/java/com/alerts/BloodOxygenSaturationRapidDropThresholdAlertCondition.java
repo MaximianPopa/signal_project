@@ -30,6 +30,11 @@ public class BloodOxygenSaturationRapidDropThresholdAlertCondition implements Al
     return dropPercentage >= 5;
   }
 
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new BloodOxygenAlertFactory();
+  }
+
   private static double getMinRecordValue(List<PatientRecord> records){
     double min = records.getFirst().getMeasurementValue();
     for (PatientRecord record : records) {

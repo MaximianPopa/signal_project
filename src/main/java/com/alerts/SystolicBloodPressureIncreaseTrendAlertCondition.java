@@ -19,4 +19,9 @@ public class SystolicBloodPressureIncreaseTrendAlertCondition implements AlertCo
     List<PatientRecord> lastRecords = patient.getLastNRecords("SystolicPressure", NUMBER_OF_RECORDS);
     return isIncreasingTrend(lastRecords);
   }
+
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new BloodPressureAlertFactory();
+  }
 }

@@ -23,4 +23,9 @@ public class HypotensiveHypoxemiaAlertCondition implements AlertCondition{
     return systolicLastRecord.getMeasurementValue() < 90 &&
       bloodOxygenLastRecord.getMeasurementValue() < 92;
   }
+
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new BloodPressureAlertFactory();
+  }
 }

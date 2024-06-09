@@ -19,4 +19,9 @@ public class DiastolicBloodPressureIncreaseTrendAlertCondition implements AlertC
     List<PatientRecord> lastRecords = patient.getLastNRecords("DiastolicPressure", NUMBER_OF_RECORDS);
     return isIncreasingTrend(lastRecords);
   }
+
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new BloodPressureAlertFactory();
+  }
 }

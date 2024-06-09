@@ -21,4 +21,10 @@ public class BloodOxygenSaturationBelowThresholdAlertCondition implements AlertC
 
     return lastRecord.getMeasurementValue() < 92;
   }
+
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new BloodOxygenAlertFactory();
+  }
+
 }

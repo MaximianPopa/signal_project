@@ -33,6 +33,11 @@ public class ECGAbnormalDataAlertCondition implements AlertCondition{
     return lastValue > 2*averageOfSlidingWindow;
   }
 
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new ECGAlertFactory();
+  }
+
   private double getAverageValue(List<PatientRecord> records){
     double sum = 0;
     for (PatientRecord record : records) {

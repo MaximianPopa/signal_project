@@ -21,4 +21,9 @@ public class DiastolicPressureBelowThresholdAlertCondition implements AlertCondi
 
     return lastRecord.getMeasurementValue() < 60;
   }
+
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new BloodPressureAlertFactory();
+  }
 }

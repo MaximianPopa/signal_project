@@ -8,4 +8,6 @@ public interface AlertCondition {
 
   boolean isAlertConditionMet(Patient patient);
 
+  AlertFactory getAlertFactory();
+
 }

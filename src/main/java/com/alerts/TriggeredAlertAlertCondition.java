@@ -28,5 +28,10 @@ public class TriggeredAlertAlertCondition implements AlertCondition{
 
   }
 
+  @Override
+  public AlertFactory getAlertFactory() {
+    return new AlertFactory();
+  }
+
 
 }
