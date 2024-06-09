@@ -38,6 +38,15 @@ public class HealthDataSimulator {
     private static ScheduledExecutorService scheduler;
     private static OutputStrategy outputStrategy = new ConsoleOutputStrategy(); // Default output strategy
     private static final Random random = new Random();
+    private static final HealthDataSimulator INSTANCE = new HealthDataSimulator();
+
+
+    public static HealthDataSimulator getInstance(){
+        return INSTANCE;
+    }
+
+    private HealthDataSimulator() {
+    }
 
     /**
      * The main method that enables the simulations by calling other methods.
@@ -46,7 +55,10 @@ public class HealthDataSimulator {
      * @throws IOException If error occurs when working with files.
      */
     public static void main(String[] args) throws IOException {
+        HealthDataSimulator.getInstance().runSimulation(args);
+    }
 
+    public void runSimulation(String[] args) throws IOException {
         parseArguments(args);
 
         scheduler = Executors.newScheduledThreadPool(patientCount * 4);
