@@ -73,3 +73,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## About Week 4
 - The Code coverage documentation, Unit test verification and the UML class diagram for week four is in [week4 folder](./week4)
+
+## About Week 6
+- Unit test verification and demonstration for week six is in [week6 folder](./week6)
