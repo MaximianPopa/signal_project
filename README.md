@@ -76,3 +76,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## About Week 6
 - Unit test verification and demonstration for week six is in [week6 folder](./week6)
+
+## About Week 7
+- Unit test verification for week seven is in [week7 folder](./week7)
